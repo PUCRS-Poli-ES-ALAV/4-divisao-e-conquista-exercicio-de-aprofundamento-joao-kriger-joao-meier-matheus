@@ -1,16 +1,31 @@
 package br.pucrs;
 
 import java.lang.reflect.Array;
+import java.sql.Date;
+import java.util.Random;
 
 public class App 
 {
     public static void main( String[] args )
     {
-        int[] arr = { 5, 2, 9, 1, 5, 6 };
+        int[] arr = generateRandomArray(1048576);
+        
+        long startTime = System.nanoTime();
         arr = MergeSort(arr);  
-        for (int num : arr) {
-            System.out.print(num + " "); 
+
+        long endTime = System.nanoTime();
+        long duration = endTime - startTime;
+        
+        System.out.println("Tempo de execução: " + duration + " nanosegundos.");
+    }
+
+    long maxVal1(long A[], int n) {  
+        long max = A[0];
+        for (int i = 1; i < n; i++) {  
+            if( A[i] > max ) 
+               max = A[i];
         }
+        return max;
     }
 
     public static int[] MergeSort(int[] arr){
@@ -60,5 +75,16 @@ public class App
         }
 
         return merged;
+    }
+
+    public static int[] generateRandomArray(int n) {
+        Random random = new Random();
+        int[] array = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            array[i] = random.nextInt(100); 
+        }
+
+        return array;
     }
 }
