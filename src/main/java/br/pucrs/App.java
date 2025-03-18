@@ -6,25 +6,32 @@ import java.util.Random;
 
 public class App 
 {
+    public static int cont;
     public static void main( String[] args )
     {
-        int[] arr = generateRandomArray(1048576);
-        
+        long[] arr = generateRandomArray(1048576);
+
         long startTime = System.nanoTime();
-        arr = MergeSort(arr);  
+        //arr = MergeSort(arr);
+        long maxValue = maxVal2(arr, 0, 1048575);  
 
         long endTime = System.nanoTime();
         long duration = endTime - startTime;
         
         System.out.println("Tempo de execução: " + duration + " nanosegundos.");
+        System.out.println("MaxValue: " + maxValue);
+        System.out.println("Cont: " + cont);
     }
 
-    long maxVal1(long A[], int n) {  
+    static long maxVal1(long A[], int n) {  
         long max = A[0];
+        int cont = 0;
         for (int i = 1; i < n; i++) {  
+            cont += 1;
             if( A[i] > max ) 
                max = A[i];
         }
+        System.out.println("Contagem de Operações: " + cont);
         return max;
     }
 
@@ -77,14 +84,26 @@ public class App
         return merged;
     }
 
-    public static int[] generateRandomArray(int n) {
+    public static long[] generateRandomArray(int n) {
         Random random = new Random();
-        int[] array = new int[n];
+        long[] array = new long[n];
 
         for (int i = 0; i < n; i++) {
-            array[i] = random.nextInt(100); 
+            array[i] = random.nextLong(100); 
         }
 
         return array;
+    }
+
+    static long maxVal2(long A[], int init, int end) { 
+        cont++;
+        if (end - init <= 1)
+            return Math.max(A[init], A[end]);  
+        else {
+              int m = (init + end)/2;
+              long v1 = maxVal2(A,init,m);   
+              long v2 = maxVal2(A,m+1,end);  
+              return Math.max(v1,v2);
+             }
     }
 }
